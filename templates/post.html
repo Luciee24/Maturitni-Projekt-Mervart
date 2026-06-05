@@ -7,11 +7,23 @@
 
 </form>
 
+
+
 <h3>Příspěvky:</h3>
+
 <ul>
 
     {% for text in prispevky %}
-        <li>{{ text }}</li>
-    {% endfor %}
+        <li>
+            {{ text }}
 
+            <form method="POST">
+
+                <input type="hidden" name="smazani_index" value="{{ loop.index0 }}"> 
+
+                <button type="submit">Smazat</button> 
+            </form>
+        </li>
+    {% endfor %}
+    
 </ul>
