@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main page</title>
+    <title>Hlavní stránka</title>
 </head>
 <body>
+    <h1>Úvodní stránka</h1>
     <ul>
         {% for jazyk in temata %}
             <li>
@@ -13,5 +14,7 @@
             </li>
         {% endfor %}
     </ul>
+     <a href="{{ url_for('login') }}">Přihlášení zde</a><br>
+     <a href="{{ url_for('register') }}">Registrace zde</a><br>
 </body>
 </html>
