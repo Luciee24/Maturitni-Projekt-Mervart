@@ -6,7 +6,15 @@
     <title>Login</title>
 </head>
 <body>
+    <form action="POST">
+        <label for="username">Jméno:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Heslo:</label>
+        <input type="text" id="password" name="password">
+        <button type="submit">Registrovat</button>
+    </form>
     <h1>Login</h1>
-    <a href="{{url_for('register')}}">Nemáš účet? Registruj se!</a>
+    <a href="{{url_for('register')}}">Nemáš účet? Registruj se!</a><br>
+    <a href="{{url_for('home')}}">Jít zpět?</a>
 </body>
 </html>
