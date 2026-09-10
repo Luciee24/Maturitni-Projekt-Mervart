@@ -1,0 +1,34 @@
+body { 
+    background-color: #0f0c1b;
+    color: rgb(252, 255, 216);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    max-width: 600px;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: 60px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(252, 255, 216);
+
+}
+
+li {
+    background-color: #2b1a38;
+    border: 1px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+
+}
+
+li a {
+    display: block;
+    padding: 10px; 
+    width: 100%;
+    box-sizing: border-box;
+}
