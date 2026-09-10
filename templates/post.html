@@ -21,13 +21,16 @@
 
     {% for text in prispevky %}
         <li>
-            {{ text }}
+            {{ text.text }}
 
             <form method="POST">
+                <input type="hidden" name="smazani_id" value="{{ text.id }}"> 
+                <button type="submit">Smazat</button>  
+            </form>
 
-                <input type="hidden" name="smazani_index" value="{{ loop.index0 }}"> 
-
-                <button type="submit">Smazat</button> 
+            <form method="POST">
+                <input type="text" name="okomentovat_index" >
+                <button type="submit">Okomentovat</button>
             </form>
         </li>
     {% endfor %}
