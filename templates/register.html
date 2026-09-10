@@ -7,6 +7,21 @@
 </head>
 <body>
     <h1>Registrace</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('register') }}">
+        <label>Uživatelské jméno:</label><br>
+        <input type="text" name="username"><br><br>
+
+        <label>Heslo:</label><br>
+        <input type="password" name="password"><br><br>
+
+        <button type="submit">Zaregistrovat se</button>
+    </form>
+
     <a href="{{url_for('login')}}">Máš už účet? Přihlaš se!</a><br>
     <a href="{{url_for('home')}}">Jít zpět?</a>
 </body>
