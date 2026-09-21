@@ -57,6 +57,7 @@ def ukaz_tema(jazyk):
     if request.method == "POST":
         napsany_text = request.form.get("prispevek")
         smazat_id = request.form.get("smazani_id")
+        komentovat = request.form.get("komentar_id")
 
         if napsany_text:
             conn.execute('INSERT INTO prispevky (jazyk, text) VALUES (?, ?)', (jazyk, napsany_text))
@@ -65,6 +66,10 @@ def ukaz_tema(jazyk):
 
         elif smazat_id:
             conn.execute('DELETE FROM prispevky WHERE id = ?', (smazat_id,))
+            conn.commit()
+
+        elif komentovat:
+            conn.execute('INSERT INTO PRISPEVKY (jazyk, text) VALUES (?, ?)', (jazyk, komentovat))
             conn.commit()
 
     nactene_prispevky = conn.execute('SELECT * FROM prispevky WHERE jazyk = ?', (jazyk,)).fetchall()
