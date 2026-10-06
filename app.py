@@ -12,7 +12,8 @@ kurzor.execute('''
     CREATE TABLE IF NOT EXISTS prispevky (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         jazyk TEXT,
-        text TEXT
+        text TEXT,
+        autor TEXT
     )
 ''')
 
@@ -24,10 +25,12 @@ kurzor.execute('''
     )
 ''')
 
+
 spojeni.commit()
 spojeni.close()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
+
 
 def get_db_connection():
     conn = sqlite3.connect('databaze.db')
@@ -59,8 +62,10 @@ def ukaz_tema(jazyk):
         smazat_id = request.form.get("smazani_id")
         komentovat = request.form.get("komentar_id")
 
+        autor = session.get('username', 'Anonym')
+
         if napsany_text:
-            conn.execute('INSERT INTO prispevky (jazyk, text) VALUES (?, ?)', (jazyk, napsany_text))
+            conn.execute('INSERT INTO prispevky (jazyk, text, autor) VALUES (?, ?, ?)', (jazyk, napsany_text, autor))
             conn.commit()
             print(f"Uživatel uložil do DB pro {jazyk}: {napsany_text}")
 
@@ -69,7 +74,7 @@ def ukaz_tema(jazyk):
             conn.commit()
 
         elif komentovat:
-            conn.execute('INSERT INTO PRISPEVKY (jazyk, text) VALUES (?, ?)', (jazyk, komentovat))
+            conn.execute('INSERT INTO PRISPEVKY (jazyk, text, autor) VALUES (?, ?, ?)', (jazyk, komentovat, autor))
             conn.commit()
 
     nactene_prispevky = conn.execute('SELECT * FROM prispevky WHERE jazyk = ?', (jazyk,)).fetchall()
@@ -109,13 +114,29 @@ def register():
 
 # CESTY
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":    
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        conn = get_db_connection()
+        uzivatel = conn.execute('SELECT * FROM uzivatele WHERE username = ?', (username,)).fetchone()
+        conn.close()
+
+        if uzivatel and check_password_hash(uzivatel['password'], password):
+            session['username'] = uzivatel['username']
+            return redirect(url_for("home"))
+        else:
+            return render_template("login.html", error="Špatné jméno nebo heslo!")
+
     return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop('username', None)
+    return render_template("home")
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
 
