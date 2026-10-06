@@ -19,5 +19,12 @@
     
      <a href="{{ url_for('login') }}">Přihlášení zde</a><br>
      <a href="{{ url_for('register') }}">Registrace zde</a><br>
+
+     {% if session.get('username') %}
+        <span>Přihlášen jako: <strong>{{ session.get('username') }}</strong></span>
+     {% else %}
+        <span>Nejsi přihlášen!</span>
+     {% endif %}
+
 </body>
 </html>
