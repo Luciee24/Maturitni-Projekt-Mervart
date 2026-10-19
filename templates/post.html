@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,31 +10,47 @@
 <h1>Vítej v diskuzi o jazyku {{ nazev }}</h1>
 
 <form method="POST">
-<textarea name="prispevek"></textarea>
-<button type="submit">Odeslat</button>    
+    <textarea name="prispevek"></textarea>
+    <button type="submit">Odeslat</button>    
 </form>
-
 
 <h3>Příspěvky:</h3>
 
 <ul>
     {% for text in prispevky %}
         <li>
+
+            <small style="color: gray;">Napsal: <strong>{{ text.autor }}</strong></small>
+            <br>
+            
             {{ text.text }}
 
             <form method="POST">
                 <input type="hidden" name="smazani_id" value="{{ text.id }}"> 
                 <button type="submit">Smazat</button>  
             </form>
-
-            <form method="POST">
-                <input type="text" name="komentar_id" >
-                <button type="submit">Okomentovat</button>
-            </form>
-            <ul style="list-style-type: none; margin-left: 25px; padding-left: 0;">
-
-            </ul>
         </li>
+
+
+        <ul >
+            {% for komentar in text.komentare %}
+            <li>
+                <small style="color: gray;">Napsal: <strong>{{ komentar.autor }}</strong></small>
+                <br>
+
+                {{ komentar.text }}
+
+            </li>
+            {% endfor %}
+            
+        </ul>
+
+        <form method="POST">
+                <input type="hidden" name="prispevek_id" value="{{ text.id }}">
+                <input type="text" name="komentar_id">
+                <button type="submit">Okomentovat</button>
+        </form>
+
     {% endfor %}
 </ul>
 
