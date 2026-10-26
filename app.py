@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 
@@ -28,6 +27,7 @@ kurzor.execute('''
 
 spojeni.commit()
 spojeni.close()
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
 
@@ -36,9 +36,6 @@ def get_db_connection():
     conn = sqlite3.connect('databaze.db')
     conn.row_factory = sqlite3.Row  
     return conn
-
-USERNAME = "admin"
-PASSWORD = "heslo"
 
 #prispevky = {} # <----- Udělala jsem z toho slovník protože se mi příspěvky ukazovali ve všech jazycích
 
@@ -135,7 +132,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.pop('username', None)
-    return render_template("home")
+    return redirect('/home')
 
 if __name__ == "__main__":
     app.run(debug=True)
